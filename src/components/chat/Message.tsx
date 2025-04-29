@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface ChatBubbleProps {
   message: string;
@@ -21,7 +21,7 @@ export default function Message({
       {!isCurrentUser && (
         <Avatar className="w-8 h-8 mr-2">
           <AvatarImage src={avatarUrl} alt={sender} />
-          <AvatarFallback>{sender.charAt(0)}</AvatarFallback>
+          {/* <AvatarFallback>{sender.charAt(0)}</AvatarFallback> */}
         </Avatar>
       )}
 
@@ -37,7 +37,7 @@ export default function Message({
       {isCurrentUser && (
         <Avatar className="w-8 h-8 ml-2">
           <AvatarImage src={avatarUrl} alt={sender} />
-          <AvatarFallback>{sender.charAt(0)}</AvatarFallback>
+          {/* <AvatarFallback>{sender.charAt(0)}</AvatarFallback> */}
         </Avatar>
       )}
     </div>

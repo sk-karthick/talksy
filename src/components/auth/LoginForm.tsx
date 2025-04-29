@@ -1,74 +1,25 @@
-"use client";
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import supabase from '@/lib/supabaseClient';
-import Image from 'next/image';
-import { Input } from '../ui/input';
-import { Label } from '@radix-ui/react-label';
-import { Button } from '../ui/button';
-import { User } from '@supabase/supabase-js';
+'use client';
 
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import { Label } from '@radix-ui/react-label';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
-    
-    const [user, setUser] = useState<User | null>(null);
+    const { login, error, setError } = useAuth();
 
-
-    useEffect(() => {
-        const checkSession = async () => {
-            const { data, error } = await supabase.auth.getSession();
-            if (error) {
-                console.error('Error fetching session:', error.message);
-                return;
-            }
-
-            if (data?.session?.user) {
-                setUser(data.session.user);
-                if (data.session) {
-                    router.push(`/chat/${data.session.user.id}`);
-                }
-                console.log('Session:', data.session);
-            }
-        };
-
-        checkSession();
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            if (session?.user) {
-                setUser(session.user);
-                router.push(`/chat/${session.user.id}`);
-            } else {
-                setUser(null);
-            }
-        });
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, [router]);
-
-    const handleLogin = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-
-        if (error) {
-            setError(error.message);
+        if (!email || !password) {
+            setError('Please fill in all fields.');
             return;
         }
-
-        console.log('Logged in user:', data.user);
-
-        if (data.user) {
-            router.push(`/chat/${data.user.id}`);
-        }
+        await login(email, password);
     };
 
     return (
@@ -78,25 +29,28 @@ const LoginForm = () => {
                     <Image
                         src="/images/logo.png"
                         alt="Talksy Logo"
-                        layout="intrinsic"
                         width={400}
                         height={500}
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="/images/logo-placeholder.png"
                     />
                 </div>
                 <div className="flex-shrink-0 w-[50%] h-full bg-[#A769F7]">
-                    <div className="space-y-2 text-center pt-12">
+                    <div className="text-center pt-12">
                         <h2 className="text-2xl font-bold mb-12">Login</h2>
                     </div>
-                    <form className="px-8 flex flex-col items-center justify-evenly h-[60%]" onSubmit={handleLogin}>
+                    <form className="px-8 flex flex-col items-center justify-evenly h-[60%]" onSubmit={handleSubmit}>
                         <div className="space-y-2 w-full">
                             <Label htmlFor="email">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="m@example.com"
                                 required
                                 className="rounded-full h-12 border-[#bdc3c7] bg-white"
-                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div className="space-y-2 w-full">
@@ -104,6 +58,7 @@ const LoginForm = () => {
                             <Input
                                 id="password"
                                 type="password"
+                                value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="rounded-full h-12 border-[#bdc3c7] bg-white"
                                 required
@@ -118,8 +73,10 @@ const LoginForm = () => {
                         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                     </form>
                     <div className="flex items-center justify-center mt-4">
-                        <p className="text-sm text-gray-600">Don't have an account? </p>
-                        <a href="/register" className="text-white ml-1 hover:underline">Register</a>
+                        <p className="text-sm text-gray-600">Dont have an account?</p>
+                        <Link href="/register" className="text-white ml-1 hover:underline">
+                            Register
+                        </Link>
                     </div>
                 </div>
             </div>

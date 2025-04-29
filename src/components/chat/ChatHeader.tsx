@@ -1,7 +1,6 @@
 import React from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Ellipsis, MoreHorizontal } from 'lucide-react';
-import { Button } from '../ui/button';
+import { MoreHorizontal } from 'lucide-react';
 
 const ChatHeader = () => {
     return (

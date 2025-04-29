@@ -26,7 +26,6 @@ const ChatInput = () => {
                 ref={inputRef}
                 contentEditable
                 className="flex-1 p-2 min-h-[30px] w-[70%] mx-auto max-h-[150px] overflow-auto text-sm focus:border-none focus:outline-none placeholder:text-gray-500"
-                placeholder="Type a message..."
                 onKeyDown={handleKeyDown}
                 role="textbox"
                 aria-multiline="true"
