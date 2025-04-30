@@ -22,8 +22,20 @@ const LoginForm = () => {
         await login(email, password);
     };
 
+
+    // Add chat-bg.jpg for UI bg.
+
     return (
         <div className="flex items-center justify-center h-dvh">
+            <div className='fixed inset-0 w-full h-full z-0'>
+                <Image
+                    src='/images/chat-bg.jpg'
+                    layout='fill'
+                    objectFit='cover'
+                    alt='Background Image'
+                />
+            </div>
+
             <div className="bg-blue-50 w-[70dvw] h-[70dvh] rounded-3xl shadow-lg z-10 flex items-center justify-center overflow-hidden">
                 <div className="w-[50%] flex-shrink-1 h-full flex items-center justify-center">
                     <Image

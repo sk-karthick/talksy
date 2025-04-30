@@ -5,21 +5,17 @@ import { useParams, notFound } from 'next/navigation';
 import supabase from '@/lib/supabaseClient';
 import Sidebar from '@/components/Layout/Sidebar';
 import ChatHeader from '@/components/chat/ChatHeader';
-import Message from '@/components/chat/Message';
+import MessageBubble from '@/components/chat/Message';
 import ChatInput from '@/components/chat/ChatInput';
+import Message from '@/types/MessageTypes';
+import UserTypes from '@/types/UserTypes';
 
 interface UserProfile {
-    id: string;
-    name: string;
-    avatar_url?: string;
+    user : UserTypes;
 }
 
 interface MessageType {
-    id: string;
-    sender_id: string;
-    receiver_id: string;
-    message: string;
-    created_at: string;
+  messages : Message;
 }
 
 const ChatPage = () => {
@@ -71,21 +67,21 @@ const ChatPage = () => {
 
     return (
         <div className="bg-[#f4f7ff] p-4 m-5 h-[calc(100dvh-2rem)] rounded-4xl overflow-hidden shadow-lg flex gap-10">
-            <Sidebar />
+            <Sidebar messages={messages} />
             <div className="w-full flex flex-col justify-between">
-                <ChatHeader />
+                <ChatHeader user={user}/>
                 <div className="h-[100dvh] flex flex-col overflow-y-auto justify-end">
                     {messages.length > 0 ? (
                         messages.map((msg) => {
                             const isCurrentUser = msg.sender_id === user.id;
                             const senderName = isCurrentUser ? user.name : 'Other User';
                             const avatarUrl = user.avatar_url || 'https://i.pravatar.cc/150';
-                            const timestamp = new Date(msg.created_at).toLocaleTimeString();
+                            const timestamp = new Date(msg.created_at).toLocaleString();
 
                             return (
-                                <Message
+                                <MessageBubble
                                     key={msg.id}
-                                    message={msg.message}
+                                    message={msg.content}
                                     sender={senderName}
                                     avatarUrl={avatarUrl}
                                     timestamp={timestamp}

@@ -9,7 +9,7 @@ interface ChatBubbleProps {
   isCurrentUser?: boolean;
 }
 
-export default function Message({
+export default function MessageBubble({
   message,
   sender,
   avatarUrl,
