@@ -2,13 +2,13 @@
 import { Send } from 'lucide-react';
 import React, { useRef } from 'react'
 
-const ChatInput = () => {
+const ChatInput = ({ setUserMessage }:any) => {
     const inputRef = useRef<HTMLDivElement>(null)
 
     const handleSend = () => {
         const message = inputRef.current?.innerText.trim()
         if (!message) return
-
+        setUserMessage(message)
         console.log('Sending message:', message)
         inputRef.current!.innerText = ''
     }
@@ -26,7 +26,7 @@ const ChatInput = () => {
                 ref={inputRef}
                 contentEditable
                 className="flex-1 p-2 min-h-[30px] w-[70%] mx-auto max-h-[150px] overflow-auto text-sm focus:border-none focus:outline-none placeholder:text-gray-500"
-                onKeyDown={handleKeyDown}
+                onKeyDown={(e) => handleKeyDown(e)}
                 role="textbox"
                 aria-multiline="true"
             />

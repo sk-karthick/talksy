@@ -22,9 +22,6 @@ const LoginForm = () => {
         await login(email, password);
     };
 
-
-    // Add chat-bg.jpg for UI bg.
-
     return (
         <div className="flex items-center justify-center h-dvh">
             <div className='fixed inset-0 w-full h-full z-0'>

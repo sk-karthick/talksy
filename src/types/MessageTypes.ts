@@ -1,4 +1,5 @@
 export default interface Message {
+    created_at: string | number | Date;
     id: string;
     conversation_id: string;
     sender_id: string;
@@ -7,6 +8,5 @@ export default interface Message {
     message_type: string;
     status: string;
     typing_status: 'typing' | 'paused' | 'stopped';
-    createdAt: Date;
-    updatedAt: Date;
+    updated_at: string | number | Date;
 }

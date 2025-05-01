@@ -1,4 +1,5 @@
 export default interface UserTypes {
+    name: any;
     id : string;
     username:string;
     gender:string;
