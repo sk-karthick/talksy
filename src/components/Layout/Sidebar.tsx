@@ -1,91 +1,43 @@
 "use client";
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Search, MoreVertical } from "lucide-react";
-import supabase from '@/lib/supabaseClient';
+import { Search } from "lucide-react";
 import Message from '@/types/MessageTypes';
 import UserTypes from '@/types/UserTypes';
+import useFetchUsers from '@/hooks/useFetchUsers';
+import NotFound from '../ui/NotFound';
+import MoreOptionMenu from './MoreOptionMenu';
 
-interface UserProfile {
-  id: string;
-  username: string;
-  avatar_url: string;
-  updated_at: string;
-}
 
 interface MessageProps {
   messages: Message[];
-  currentUserId: string;
+  currentUserId: UserTypes[];
   setSelectedUser: Dispatch<SetStateAction<UserTypes | null>>;
 }
 
 export default function Sidebar({ messages, setSelectedUser, currentUserId }: MessageProps) {
-  const [users, setUsers] = useState<Record<string, UserProfile>>({});
   const [searchTerm, setSearchTerm] = useState('');
   const [activeUser, setActiveUser] = useState<string | null>(null);
+
+  const usersFetch = useFetchUsers();
 
   const handleClick = (userId: string) => {
     setActiveUser(userId);
   };
 
-  useEffect(() => {
-    const fetchChatParticipants = async () => {
-      if (!messages || messages.length === 0 || !currentUserId) return;
+  const filteredUsers = usersFetch?.filter(user => {
+    return user.username.toLowerCase().includes(searchTerm.toLowerCase()) && user.id !== currentUserId[0]?.id;
+  });
 
-      const participantIds = new Set<string>();
 
-      messages.forEach(m => {
-        if (m.sender_id && m.sender_id !== currentUserId) {
-          participantIds.add(m.sender_id);
-        }
-        if (m.receiver_id && m.receiver_id !== currentUserId) {
-          participantIds.add(m.receiver_id);
-        }
-      });
-
-      const idsArray = Array.from(participantIds);
-      if (idsArray.length === 0) return;
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, username, avatar_url, updated_at')
-        .in('id', idsArray);
-
-      if (error) {
-        console.error('Error fetching profiles:', error.message);
-        return;
-      }
-      const userMap: Record<string, UserProfile> = {};
-      data?.forEach(user => {
-        userMap[user.id] = user;
-      });
-
-      setUsers(userMap);
-    };
-
-    fetchChatParticipants();
-  }, [messages, currentUserId]);
-
-  const filteredUsers = Object.values(users).filter(user =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  // const handleAddUser = async () => {
-  //   const { data, error } = await supabase
-  //     .from('profiles')
-  //     .select(username)
-  //   if (error) {
-  //     console.error('Error fetching user:', error.message);
-  //     return;
-  //   }
 
   return (
     <aside className="hidden md:flex flex-col w-142 transition-all">
       <div className='bg-white h-[100%] my-auto '>
         <div className="px-4 py-4 flex items-center justify-between h-16">
           <h2 className="text-xl font-semibold text-gray-800">Chat</h2>
-          <MoreVertical className="w-6 h-6 text-gray-500 hover:text-gray-700 cursor-pointer" />
+          {MoreOptionMenu()}
         </div>
 
         <div className="px-4">
@@ -100,11 +52,15 @@ export default function Sidebar({ messages, setSelectedUser, currentUserId }: Me
           </div>
         </div>
 
+
         <div className="flex-1 mt-4 relative overflow-y-auto h-full px-4 max-h-[63vh]">
-          {filteredUsers.length === 0 ? (
-            <p className="text-sm text-gray-500 px-2">No users found.</p>
+          {filteredUsers?.length === 0 ? (
+            <>
+              <p className="text-sm text-gray-500 px-2 flex items-center justify-center">No users found.</p>
+              <NotFound text={'No users found'} />
+            </>
           ) : (
-            filteredUsers.map(user => (
+            filteredUsers?.map(user => (
               <div
                 key={user.id}
                 onClick={() => {
@@ -113,13 +69,13 @@ export default function Sidebar({ messages, setSelectedUser, currentUserId }: Me
                     id: user.id,
                     avatar_url: user.avatar_url,
                     name: user.username,
-                    gender: "unknown", 
+                    gender: "unknown",
                     age: 0,
                     email: "unknown@example.com",
-                    phone_no: "unknown", 
+                    phone_no: "unknown",
                     bio: "No bio available",
-                    status: "offline", 
-                    last_seen: new Date(), 
+                    status: "offline",
+                    last_seen: new Date(),
                     created_at: new Date(),
                     updated_at: new Date(),
                     password: "defaultPassword",

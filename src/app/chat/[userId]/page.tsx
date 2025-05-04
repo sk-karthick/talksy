@@ -108,7 +108,7 @@ const ChatPage = () => {
 
     return (
         <div className="bg-[#f4f7ff] h-[calc(100dvh-0rem)] overflow-hidden shadow-lg flex">
-            <Sidebar messages={messages} setSelectedUser={setSelectedUser} currentUserId={user.id} />
+            <Sidebar messages={messages} setSelectedUser={setSelectedUser} currentUserId={user} />
 
             <div className="w-full flex flex-col justify-between ">
                 {selectedUser ? (
