@@ -1,5 +1,5 @@
 export default interface UserTypes {
-    name: any;
+    name: string;
     id : string;
     username:string;
     gender:string;
@@ -9,6 +9,7 @@ export default interface UserTypes {
     bio:string;
     status:string;
     last_seen:Date;
+    password:string;
     blocked_users:string[];
     updated_at:Date;
     created_at : Date;

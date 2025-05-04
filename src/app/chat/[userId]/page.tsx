@@ -9,6 +9,8 @@ import MessageBubble from '@/components/chat/Message';
 import ChatInput from '@/components/chat/ChatInput';
 import MessageType from '@/types/MessageTypes';
 import UserType from '@/types/UserTypes';
+import LoadingScreen from '@/components/ui/LoadingScreen';
+import MouseLoader from '@/components/ui/mouseLoader';
 
 
 const ChatPage = () => {
@@ -100,20 +102,20 @@ const ChatPage = () => {
         };
 
         sendMessage();
-    }, [userMessage]);
+    }, [userMessage, user, selectedUser]);
 
-    if (!user || !messages) return <div>Loading...</div>;
+    if (!user || !messages) return <LoadingScreen />;
 
     return (
-        <div className="bg-[#f4f7ff] p-4 m-5 h-[calc(100dvh-2rem)] rounded-4xl overflow-hidden shadow-lg flex gap-10">
+        <div className="bg-[#f4f7ff] h-[calc(100dvh-0rem)] overflow-hidden shadow-lg flex">
             <Sidebar messages={messages} setSelectedUser={setSelectedUser} currentUserId={user.id} />
 
-            <div className="w-full flex flex-col justify-between">
+            <div className="w-full flex flex-col justify-between ">
                 {selectedUser ? (
                     <>
-                        <ChatHeader user={user} selectedUser={selectedUser} />
-                        <div className='m-h-[100dvh] overflow-y-auto pr-3'>
-                            <div className=" flex flex-col justify-end">
+                        <ChatHeader selectedUser={selectedUser} />
+                        <div className='h-[85dvh] overflow-auto'>
+                            <div className="flex flex-col h-[95dvh] min-h-[100dvh] overflow-y-auto justify-end px-10">
                                 {messages.length > 0 ? (
                                     messages.map((msg) => {
                                         const isCurrentUser = msg.sender_id === user.id;
@@ -139,11 +141,16 @@ const ChatPage = () => {
                                 )}
                             </div>
                         </div>
+                        <ChatInput setUserMessage={setUserMessage} />
                     </>
                 ) : (
-                    <p>Select a conversation to start chatting.</p>
+                    <div className='flex flex-col items-center justify-center h-[100%] gap-y-32'>
+                        <p>
+                            Select a conversation to start chatting.
+                        </p>
+                        <MouseLoader />
+                    </div>
                 )}
-                <ChatInput setUserMessage={setUserMessage} />
             </div>
         </div>
     );

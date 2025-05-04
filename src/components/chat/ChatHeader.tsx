@@ -11,7 +11,7 @@ const ChatHeader: React.FC<UserProps> = (props) => {
     const { selectedUser } = props;
 
     return (
-        <div className='w-full flex items-center justify-between h-28 pr-5'>
+        <div className='w-full flex items-center justify-between h-16 pr-5 px-10 bg-white shadow'>
             <div className='flex items-center gap-3'>
                 <Avatar className="w-10 h-10">
                     <AvatarImage src={selectedUser.avatar_url} alt={selectedUser.username} />

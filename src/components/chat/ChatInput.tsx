@@ -2,7 +2,12 @@
 import { Send } from 'lucide-react';
 import React, { useRef } from 'react'
 
-const ChatInput = ({ setUserMessage }:any) => {
+interface ChatInputProps {
+    setUserMessage: (message: string) => void;
+}
+
+const ChatInput = (props: ChatInputProps) => {
+    const { setUserMessage } = props
     const inputRef = useRef<HTMLDivElement>(null)
 
     const handleSend = () => {
@@ -21,7 +26,7 @@ const ChatInput = ({ setUserMessage }:any) => {
     }
 
     return (
-        <div className="flex items-center p-2 bg-white shadow-2xl rounded-full h-16 pr-5">
+        <div className="flex items-center p-2 bg-white shadow-2xl rounded-full h-16 pr-5 m-7">
             <div
                 ref={inputRef}
                 contentEditable

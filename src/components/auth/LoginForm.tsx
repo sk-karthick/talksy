@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -23,7 +22,7 @@ const LoginForm = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-dvh">
+        <div className="flex items-center justify-center h-dvh ">
             <div className='fixed inset-0 w-full h-full z-0'>
                 <Image
                     src='/images/chat-bg.jpg'
@@ -33,43 +32,39 @@ const LoginForm = () => {
                 />
             </div>
 
-            <div className="bg-blue-50 w-[70dvw] h-[70dvh] rounded-3xl shadow-lg z-10 flex items-center justify-center overflow-hidden">
-                <div className="w-[50%] flex-shrink-1 h-full flex items-center justify-center">
-                    <Image
-                        src="/images/logo.png"
-                        alt="Talksy Logo"
-                        width={400}
-                        height={500}
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="/images/logo-placeholder.png"
-                    />
-                </div>
-                <div className="flex-shrink-0 w-[50%] h-full bg-[#A769F7]">
-                    <div className="text-center pt-12">
-                        <h2 className="text-2xl font-bold mb-12">Login</h2>
+            <div className="w-[40%] h-[70dvh] rounded-4xl rounded-br-none overflow-hidden shadow-lg z-10 backdrop-blur-[30px] border border-white/20">
+                    <div className="flex items-center justify-center pt-5">
+                        <Image
+                            src="/images/logo-dark.png"
+                            alt="Talksy Logo"
+                            width={400}
+                            height={500}
+                            loading="lazy"
+                            placeholder="blur"
+                            className='filter drop-shadow-[0px_6px_5px_#000]'
+                            blurDataURL="/images/logo-placeholder.png"
+                        />
                     </div>
                     <form className="px-8 flex flex-col items-center justify-evenly h-[60%]" onSubmit={handleSubmit}>
                         <div className="space-y-2 w-full">
-                            <Label htmlFor="email">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="m@example.com"
+                                placeholder="Email"
                                 required
                                 className="rounded-full h-12 border-[#bdc3c7] bg-white"
                             />
                         </div>
                         <div className="space-y-2 w-full">
-                            <Label htmlFor="password">Password</Label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="rounded-full h-12 border-[#bdc3c7] bg-white"
+                                placeholder="Password"
                                 required
                             />
                         </div>
@@ -87,7 +82,6 @@ const LoginForm = () => {
                             Register
                         </Link>
                     </div>
-                </div>
             </div>
         </div>
     );
