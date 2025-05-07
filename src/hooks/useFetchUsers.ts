@@ -1,30 +1,43 @@
+import { useEffect, useState } from 'react';
 import supabase from '@/lib/supabaseClient';
-import React, { useEffect, useState } from 'react'
 import UserTypes from '@/types/UserTypes';
 
-
-
 const useFetchUsers = () => {
-    const [fetchUsers, setFetchUsers] = useState<UserTypes[] | null>(null)
-    
+    const [users, setUsers] = useState<UserTypes[] | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchUsers = async () => {
-            const { data: Profiles, error } = await supabase
-                .from('profiles')
-                .select('*');
-            if (error) {
-                console.error('Error fetching profiles:', error.message);
-                return;
+            setLoading(true);
+
+            try {
+                const {
+                    data: { user },
+                    error: userError,
+                } = await supabase.auth.getUser();
+
+                if (userError) throw userError;
+                const { data: profiles, error: profilesError } = await supabase
+                    .from('profiles')
+                    .select('*');
+
+                if (profilesError) throw profilesError;
+
+                const filtered = profiles?.filter((profile) => profile.id !== user?.id) || [];
+                setUsers(filtered);
+            } catch (err: any) {
+                console.error('Error fetching users:', err.message);
+                setError(err.message);
+            } finally {
+                setLoading(false);
             }
-            else {
-                setFetchUsers(Profiles)
-                console.log("Profiles", Profiles);
-            }
-        }
+        };
+
         fetchUsers();
     }, []);
 
-    return fetchUsers;
-}
+    return { users, loading, error };
+};
 
-export default useFetchUsers
+export default useFetchUsers;

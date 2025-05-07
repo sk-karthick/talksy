@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ThemeSwitcher = ({ switchTheme }: any) => {
+interface ThemeSwitcherProps {
+    switchTheme: () => void;
+}
+
+const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ switchTheme }) => {
     return (
         <StyledWrapper onClick={() => switchTheme()}>
             <label id="theme-toggle-button">
@@ -52,7 +56,7 @@ const ThemeSwitcher = ({ switchTheme }: any) => {
                         </g>
                     </svg>
                 </div>
-                <span className='mt-1 label-text'>Theme</span>
+                <span className='label-text'>Theme</span>
             </label>
         </StyledWrapper>
     );
