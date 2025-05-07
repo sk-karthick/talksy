@@ -8,6 +8,8 @@ import { useTheme } from '@/context/ThemeContext'
 const MoreOptionMenu = () => {
     const logout = useLogout();
     const {theme, toggleTheme} = useTheme();
+    console.log('theme', theme);
+    
     return (
         <Popover>
             <PopoverTrigger asChild className="relative z-40">

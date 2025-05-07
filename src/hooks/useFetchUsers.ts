@@ -26,9 +26,14 @@ const useFetchUsers = () => {
 
                 const filtered = profiles?.filter((profile) => profile.id !== user?.id) || [];
                 setUsers(filtered);
-            } catch (err: any) {
-                console.error('Error fetching users:', err.message);
-                setError(err.message);
+            } catch (err) {
+                if (err instanceof Error) {
+                    console.error('Error fetching messages:', err.message);
+                    setError(err.message);
+                } else {
+                    console.error('Unknown error fetching messages');
+                    setError('Unknown error');
+                }
             } finally {
                 setLoading(false);
             }

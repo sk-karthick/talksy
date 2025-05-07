@@ -47,9 +47,14 @@ const useFetchConversations = (selectedUser: UserTypes | null) => {
                 if (messagesError) throw messagesError;
 
                 setConversation(messages);
-            } catch (err: any) {
-                console.error('Error fetching messages:', err.message);
-                setError(err.message);
+            } catch (err) {
+                if (err instanceof Error) {
+                    console.error('Error fetching messages:', err.message);
+                    setError(err.message);
+                } else {
+                    console.error('Unknown error fetching messages');
+                    setError('Unknown error');
+                }
             } finally {
                 setLoading(false);
             }

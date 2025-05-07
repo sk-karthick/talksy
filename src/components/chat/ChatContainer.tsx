@@ -4,19 +4,19 @@ import React from 'react'
 import MessageBubble from './Message';
 
 interface ChatContainerProps {
-    conversation: Message[] | null;
+    messages: Message[] | null;
     loading: boolean;
     error: string | null;
     currentUser: UserTypes | null;
     selectedUser: UserTypes | null;
 }
 
-const ChatContainer = ({ conversation, loading, error, currentUser, selectedUser }: ChatContainerProps) => {
+const ChatContainer = ({ messages, loading, error, currentUser, selectedUser }: ChatContainerProps) => {
     return (
         <div className='h-[85dvh] overflow-auto'>
-            <div className="flex flex-col overflow-y-auto justify-end px-10">
-                {conversation && conversation.length > 0 ? (
-                    conversation.map((msg) => {
+            <div className="flex flex-col overflow-y-auto justify-end px-10 pt-10 pb-4">
+                {messages && messages.length > 0 ? (
+                    messages.map((msg) => {
                         const isCurrentUser = msg.sender_id === currentUser?.id;
                         const senderName = isCurrentUser ? currentUser?.username : selectedUser?.name;
                         const avatarUrl = isCurrentUser
