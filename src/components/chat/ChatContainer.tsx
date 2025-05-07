@@ -1,7 +1,8 @@
 import Message from '@/types/MessageTypes';
 import UserTypes from '@/types/UserTypes';
-import React from 'react'
+import React, { useRef } from 'react'
 import MessageBubble from './Message';
+import UseAutoScroll from '@/hooks/UseAutoScroll';
 
 interface ChatContainerProps {
     messages: Message[] | null;
@@ -12,9 +13,14 @@ interface ChatContainerProps {
 }
 
 const ChatContainer = ({ messages, loading, error, currentUser, selectedUser }: ChatContainerProps) => {
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+    UseAutoScroll({ chatContainerRef, messages, selectedUser });
+
     return (
-        <div className='h-[85dvh] overflow-auto'>
-            <div className="flex flex-col overflow-y-auto justify-end px-10 pt-10 pb-4">
+        <div className='h-[85dvh] overflow-y-auto' ref={chatContainerRef}>
+            <div className="flex flex-col justify-end min-h-[100%] px-10 pt-10 pb-4" >
+                <div className="flex-grow" />
+
                 {messages && messages.length > 0 ? (
                     messages.map((msg) => {
                         const isCurrentUser = msg.sender_id === currentUser?.id;
