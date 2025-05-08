@@ -1,6 +1,8 @@
 "use client";
 
 import useMessageSend from "@/hooks/useMessageSend";
+import useResponseFromAI from "@/hooks/useResponseFromAI";
+import Message from "@/types/MessageTypes";
 import UserTypes from "@/types/UserTypes";
 import { Send } from "lucide-react";
 import React, { useRef } from "react";
@@ -8,18 +10,32 @@ import React, { useRef } from "react";
 interface ChatInputProps {
     selectedUser: UserTypes | null;
     currentUser: UserTypes | null;
+    setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 const ChatInput = ({ selectedUser, currentUser }: ChatInputProps) => {
     const sendMessage = useMessageSend(selectedUser, currentUser);
     const inputRef = useRef<HTMLDivElement>(null);
 
-    const handleSend = () => {
-        const message = inputRef.current?.innerText.trim();
-        if (!message) return;
+    const isAiUser = selectedUser?.username === "Talksy";
 
-        sendMessage(message);
-        inputRef.current!.innerText = "";
+    const sendAiReponse = useResponseFromAI(selectedUser, currentUser);
+
+    const handleSend = () => {
+        if (!inputRef.current) return;
+        const message = inputRef.current.innerText.trim();
+        const isEmpty = message.length === 0;
+        if (isEmpty) return;
+        console.log(message);
+        if (!isAiUser) {
+            if (!message) return;
+            sendMessage(message);
+            inputRef.current!.innerText = "";
+        } else {
+            sendMessage(message);
+            sendAiReponse(message);
+            inputRef.current!.innerText = "";
+        }
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {

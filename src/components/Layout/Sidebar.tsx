@@ -7,8 +7,9 @@ import UserTypes from '@/types/UserTypes';
 import useFetchUsers from '@/hooks/useFetchUsers';
 import NotFound from '../ui/NotFound';
 import MoreOptionMenu from './MoreOptionMenu';
-import useDebounce from '@/hooks/useDebounce'; 
+import useDebounce from '@/hooks/useDebounce';
 import clsx from 'clsx';
+import AiButton from '../ui/AiButton';
 
 interface MessageProps {
   setSelectedUser: React.Dispatch<React.SetStateAction<UserTypes | null>>;
@@ -31,6 +32,7 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
     setSelectedUser(user);
   }, [setSelectedUser]);
 
+
   const renderSearchBar = () => (
     <div className="px-4">
       <div className="relative mt-4">
@@ -46,7 +48,7 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
   );
 
   const renderUserItem = (user: UserTypes) => {
-   
+
     return (
       <div
         key={user.id}
@@ -83,7 +85,7 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
   };
 
   return (
-    <aside className="hidden md:flex flex-col w-142 transition-all">
+    <aside className="hidden md:flex flex-col w-142 transition-all relative">
       <div className="bg-white h-full">
         <div className="px-4 py-4 flex items-center justify-between h-16">
           <h2 className="text-xl font-semibold text-gray-800">Chat</h2>
@@ -99,6 +101,14 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
           {filteredUsers.map(renderUserItem)}
         </div>
       </div>
+
+      <div className='absolute bottom-4 right-4 p-2 rounded-full flex items-center justify-center'>
+        <AiButton onClick={() => {
+          const aiUser = users?.find(u => u.username === 'Talksy');
+          if (aiUser) handleUserClick(aiUser);
+        }} />
+      </div>
+      
     </aside>
   );
 }

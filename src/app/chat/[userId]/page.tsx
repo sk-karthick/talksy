@@ -17,6 +17,9 @@ const ChatPage = () => {
     const [messages, setMessages] = useState<MessageType[]>([]);
     const { conversation, loading, error, currentUser } = useFetchConversations(selectedUser);
 
+    const isAiChat = selectedUser?.username === "Talksy";
+    console.log(!isAiChat);
+    
     useEffect(() => {
         if (conversation) setMessages(conversation);
     }, [conversation])
@@ -42,6 +45,7 @@ const ChatPage = () => {
                         <ChatInput
                             currentUser={currentUser}
                             selectedUser={selectedUser}
+                            setMessages={setMessages}
                         />
                     </>
                 ) : (

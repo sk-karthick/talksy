@@ -20,7 +20,7 @@ const UseAutoScroll = ({ chatContainerRef, messages, selectedUser }: UseAutoScro
                 behavior: 'smooth',
             });
         });
-    }, [messages, selectedUser]);
+    }, [messages, selectedUser, chatContainerRef]);
 }
 
 export default UseAutoScroll
