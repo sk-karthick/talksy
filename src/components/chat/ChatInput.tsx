@@ -16,10 +16,9 @@ interface ChatInputProps {
 const ChatInput = ({ selectedUser, currentUser }: ChatInputProps) => {
     const sendMessage = useMessageSend(selectedUser, currentUser);
     const inputRef = useRef<HTMLDivElement>(null);
-
     const isAiUser = selectedUser?.username === "Talksy";
-
     const sendAiReponse = useResponseFromAI(selectedUser, currentUser);
+
 
     const handleSend = () => {
         if (!inputRef.current) return;
@@ -33,7 +32,9 @@ const ChatInput = ({ selectedUser, currentUser }: ChatInputProps) => {
             inputRef.current!.innerText = "";
         } else {
             sendMessage(message);
-            sendAiReponse(message);
+            setTimeout(() => {
+                sendAiReponse(message);
+            }, 500);
             inputRef.current!.innerText = "";
         }
     };
@@ -55,6 +56,14 @@ const ChatInput = ({ selectedUser, currentUser }: ChatInputProps) => {
                 role="textbox"
                 aria-multiline="true"
             />
+            <div
+                className={` p-2 cursor-pointer text-emerald-500 bg-white hover:bg-gray-100 
+                    rounded relative  transition-all 
+                    duration-300 `}
+            >
+                {/* {<Loader2 className="animate-spin w-7 h-7" />  <Mic className="w-7 h-7" />} */}
+            </div>
+
             <Send
                 onClick={handleSend}
                 className="w-10 h-10 p-2 cursor-pointer text-emerald-500 hover:bg-gray-100 rounded"

@@ -26,8 +26,6 @@ const useResponseFromAI = (selectedUser: UserTypes | null, currentUser: UserType
             throw new Error('Network response was not ok');
         }
         const data = await getResponse.json();
-        console.log(data);
-
         sendMessage(data.choices[0].message.content)
     }
 

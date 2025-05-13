@@ -16,9 +16,6 @@ const ChatPage = () => {
     const [selectedUser, setSelectedUser] = useState<UserTypes | null>(null);
     const [messages, setMessages] = useState<MessageType[]>([]);
     const { conversation, loading, error, currentUser } = useFetchConversations(selectedUser);
-
-    const isAiChat = selectedUser?.username === "Talksy";
-    console.log(!isAiChat);
     
     useEffect(() => {
         if (conversation) setMessages(conversation);

@@ -1,3 +1,4 @@
+// tailwind.config.js
 module.exports = {
     darkMode: 'class',
     content: [
@@ -6,7 +7,20 @@ module.exports = {
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            animation: {
+                'zoom-pulse': 'zoomPulse 1.5s ease-in-out infinite',
+            },
+            keyframes: {
+                zoomPulse: {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(1.1)' },
+                }
+            }
+        },
     },
     plugins: [],
+    safelist: [
+        'animate-zoom-pulse',
+    ]
 }
