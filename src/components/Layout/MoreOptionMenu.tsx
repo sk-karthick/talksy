@@ -17,10 +17,10 @@ const MoreOptionMenu = () => {
             </PopoverTrigger>
             <PopoverContent align="start" className="relative z-50 bg-white p-2 rounded-md shadow-md">
                 <ul className="flex flex-col">
-                    <li className="py-3 px-4 cursor-pointer hover:bg-blue-50 flex items-center gap-4"
+                    {/* <li className="py-3 px-4 cursor-pointer hover:bg-blue-50 flex items-center gap-4"
                     >
                         <ThemeSwitcher switchTheme={toggleTheme}/>
-                    </li>
+                    </li> */}
                     <li className="py-3 px-4 pl-8 cursor-pointer text-red-500 hover:bg-blue-50 flex items-center gap-10"
                         onClick={() => logout()}
                     >

@@ -38,13 +38,13 @@ export default function MessageBubble({
         <p className="text-md pr-12">{message}</p>
         <span className={`text-[11px]  mt-1 text-right  flex items-center gap-4 ${isCurrentUser ? 'text-gray-100 justify-end' : 'text-gray-600'}`}>
           {timestamp}
-          {
+          {/* {
             isCurrentUser &&
             <>
               {isSent && <Check className="w-4 h-4" />}
               {isDelivered || isRead && <CheckCheck className={`${isRead ? 'text-green-500' : ''}`} />}
             </>
-          }
+          } */}
 
         </span>
       </div>
