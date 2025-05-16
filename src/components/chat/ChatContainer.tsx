@@ -31,7 +31,6 @@ const ChatContainer = ({ messages, loading, error, currentUser, selectedUser }: 
         setSeparatedByDate(separateMsg || {});
     }, [messages]);
 
-
     return (
         <div className='h-[85dvh] overflow-y-auto' ref={chatContainerRef}>
             <div className="flex flex-col justify-end min-h-[100%] px-10 pt-10 pb-4" >
@@ -49,7 +48,7 @@ const ChatContainer = ({ messages, loading, error, currentUser, selectedUser }: 
                                     const avatarUrl = isCurrentUser
                                         ? currentUser?.avatar_url || 'https://i.pravatar.cc/150'
                                         : selectedUser?.avatar_url || 'https://i.pravatar.cc/150';
-                                    const timestamp = new Date(msg.created_at).toLocaleString();
+                                    const timestamp = new Date(msg.created_at).toLocaleString([], {hour: '2-digit',minute: '2-digit'});;
 
                                     return (
                                         <MessageBubble
@@ -59,6 +58,7 @@ const ChatContainer = ({ messages, loading, error, currentUser, selectedUser }: 
                                             avatarUrl={avatarUrl}
                                             timestamp={timestamp}
                                             isCurrentUser={isCurrentUser}
+                                            status={["sent", "delivered", "read"].includes(msg.status) ? msg.status as "sent" | "delivered" | "read" : undefined}
                                         />
                                     );
                                 })}

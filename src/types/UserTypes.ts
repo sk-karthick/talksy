@@ -7,7 +7,7 @@ export default interface UserTypes {
     email:string;
     phone_no:string;
     bio:string;
-    status:string;
+    status:boolean;
     last_seen:Date;
     password:string;
     blocked_users:string[];

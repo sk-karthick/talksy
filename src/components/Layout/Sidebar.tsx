@@ -33,6 +33,7 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
   }, [setSelectedUser]);
 
 
+
   const renderSearchBar = () => (
     <div className="px-4">
       <div className="relative mt-4">
@@ -63,7 +64,7 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
           <AvatarFallback>{user.username?.[0] ?? "U"}</AvatarFallback>
         </Avatar>
 
-        <span className="absolute left-8 bottom-3 w-2.5 h-2.5 bg-green-500 rounded-full ring-2 ring-white" />
+        {user.status && <span className="absolute left-8 bottom-3 w-2.5 h-2.5 bg-green-500 rounded-full ring-2 ring-white" />}
 
         <div className="flex-1">
           <div className="flex justify-between items-center">
@@ -108,7 +109,7 @@ export default function Sidebar({ setSelectedUser }: MessageProps) {
           if (aiUser) handleUserClick(aiUser);
         }} />
       </div>
-      
+
     </aside>
   );
 }

@@ -10,13 +10,15 @@ import MouseLoader from '@/components/ui/mouseLoader';
 import useFetchConversations from '@/hooks/useFetchConversations';
 import ChatContainer from '@/components/chat/ChatContainer';
 import useRealtimeMessages from '@/hooks/useRealtimeChat';
+import useCheckOnlineStatus from '@/hooks/useCheckOnlineStatus';
 
 
 const ChatPage = () => {
     const [selectedUser, setSelectedUser] = useState<UserTypes | null>(null);
     const [messages, setMessages] = useState<MessageType[]>([]);
+    useCheckOnlineStatus();
     const { conversation, loading, error, currentUser } = useFetchConversations(selectedUser);
-    
+
     useEffect(() => {
         if (conversation) setMessages(conversation);
     }, [conversation])
